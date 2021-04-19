@@ -1,0 +1,6 @@
+[submodule "react-firebase-auth"]
+	path = react-firebase-auth
+	url = https://github.com/bisocial-vn/react-firebase-auth.git
+[submodule "springboot-firebase-auth"]
+	path = springboot-firebase-auth
+	url = https://github.com/bisocial-vn/springboot-firebase-auth.git
