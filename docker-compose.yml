@@ -1,6 +1,36 @@
 version: "3.1"
 
+networks:
+  be:
+  fe:
+
 services:
+  backend:
+    image: ghcr.io/mrbi9x/springboot-firebase-auth
+    ports:
+      - "8080:8080"
+    volumes:
+      - .secrets/firebase-config.json:/.secrets/firebase-config.json
+    environment:
+      - APP_FIREBASE_CREDENTIAL_PATH=file:/.secrets/firebase-config.json
+      - GOOGLE_APPLICATION_CREDENTIALS=/.secrets/firebase-config.json
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/appdb
+      - SPRING_DATASOURCE_USERNAME=appuser
+      - SPRING_DATASOURCE_PASSWORD=aPpP@Ss
+      - SPRING_PROFILES_ACTIVE=dev
+    depends_on:
+      - db
+    networks:
+      - be
+
+  frontend:
+    image: ghcr.io/bisocial-vn/react-firebase-auth
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - fe
+
   db:
     image: mysql:8
     command: --default-authentication-plugin=mysql_native_password
@@ -12,9 +42,15 @@ services:
       MYSQL_PASSWORD: aPpP@Ss
     ports:
       - 3306:3306
+    networks:
+      - be
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 8081:8080
+    depends_on:
+      - db
+    networks:
+      - be
