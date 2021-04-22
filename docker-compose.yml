@@ -6,7 +6,7 @@ networks:
 
 services:
   backend:
-    image: ghcr.io/mrbi9x/springboot-firebase-auth
+    image: ghcr.io/bisocial-vn/springboot-firebase-auth
     ports:
       - "8080:8080"
     volumes:
